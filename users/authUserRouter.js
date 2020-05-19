@@ -10,24 +10,26 @@ router.get("/", (req, res) => {
 
   console.log("JSON WEB TOKEN\n", jwt);
   console.log("JSON DEPT\n", dept);
-
-  func
-    .find()
-    // .findBy(dept)
-    .then((users) => {
-      // if (users.department == dept) {
-      console.log("users", users);
+  if (dept !== "Admin") {
+    func
+      .find()
+      .then((users) => {
+        const role = users.filter((depart) => depart.department == dept);
+        console.log("filtered", role);
+        res.status(200).json(role);
+      })
+      .catch((error) => {
+        console.log(error);
+        res
+          .status(500)
+          .json({ error: "Server error retrieving the list of users." });
+      });
+  } else {
+    func.find().then((users) => {
+      console.log("administrator", users);
       res.status(200).json(users);
-      // } else {
-      // console.log("test", users);
-      // }
-    })
-    .catch((error) => {
-      console.log(error);
-      res
-        .status(500)
-        .json({ error: "Server error retrieving the list of users." });
     });
+  }
 });
 
 module.exports = router;

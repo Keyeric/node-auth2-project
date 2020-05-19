@@ -79,7 +79,7 @@ router.post("/register", (req, res) => {
       }
     })
     .catch((error) => {
-      console.log("error 2", error);
+      console.log("Register Error", error);
       res.status(500).json({
         message: "server error creating a new user",
         error: error,
